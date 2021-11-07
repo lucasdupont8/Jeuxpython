@@ -4,11 +4,13 @@ Programme réalisé par Dupont, Lucas, 1G7
 import random
 import time
 import pygame
+#touche Nord= n or t  Sud= s or g  Est= e or h ouest= o or f
 
-lieucle=2#random.randint(2, 11)
+#lieucle=random.randint(2, 11) #autre méthode aléatoire
+list=[2,3,4,5,7,8,9,10]
+lieucle=random.choice(list)
 print(lieucle)
 cle=0
-
 
 
 #initialisation graphique
@@ -52,6 +54,7 @@ text13 = font.render("Vous vous trouvez dans l'escalier ", True, (0, 0, 0))
 text14 = font.render("Vous vous trouvez devant une porte fermer ", True, (0, 0, 0))
 text15 = font.render("Vous vous trouvez dans la pièce qui était fermer", True, (0, 0, 0))
 text16 = font.render("Vous avez trouvé la clé", True, (51, 222, 73))
+text17 = font.render("Vous n'avez pas la clé", True, (218, 28, 28))
 
 dansQuellePierceEstLePersonnage=1
 
@@ -131,10 +134,11 @@ def decrireLaPiece(piece):
         elif cle==0:
             fenetre.blit(image14,(0,0))       #piece débloquer
             fenetre.blit(text14,(30,300))
+            fenetre.blit(text17,(200,180))
 """elif piece==14:
-        fenetre.blit(image14,(0,0))        #piece bloquer
+        fenetre.blit(image14,(0,0))        #piece bloquer (test)
         fenetre.blit(text14,(30,300))
-        if lieucle==piece:
+        if cle==1:
             fenetre.blit(text16,(200,180))"""
 
 
@@ -147,7 +151,7 @@ def decision(direction,piece):
     memorisePiece=piece
 
     #N : le personnage désire aller au nord
-    if direction=='z':
+    if direction=='n'or direction=="t":
         if piece==1:
             piece=6
         elif piece==6:
@@ -159,16 +163,13 @@ def decision(direction,piece):
         elif piece==7:
             piece=8
         elif piece==11:
-            """if cle==0:
-                piece=14
-            elif cle==1:"""
             piece=15
         """elif piece==11 and cle==0:
-            piece=14
+            piece=14                     #test
         elif piece==11 and cle==1:
             piece=15"""
     #S : le personnage désire aller au sud
-    elif direction=='s':
+    elif direction=='s'or direction=="g":
         if piece==6:
             piece=1
         elif piece==9:
@@ -184,7 +185,7 @@ def decision(direction,piece):
         elif piece==15:
             piece=11
     #E : le personnage désire aller à l'est
-    elif direction=='d':
+    elif direction=='e'or direction=="h":
         if piece==7:
             piece=6
         elif piece==6:
@@ -200,7 +201,7 @@ def decision(direction,piece):
             piece=2
 
     #O : le personnage désire aller à l'ouest
-    elif direction=='q':
+    elif direction=='o'or direction=="f":
         if piece==6:
             piece=7
         elif piece==11:
@@ -230,7 +231,7 @@ while loop==True:
             loop = False            #fermeture de la fenetre (croix rouge)
         elif event.type == pygame.KEYDOWN:  #lecture du clavier
             dansQuellePierceEstLePersonnage=decision(event.unicode,dansQuellePierceEstLePersonnage)
-            if event.key == pygame.K_ESCAPE or event.unicode == 'a': #touche q pour quitter
+            if event.key == pygame.K_ESCAPE or event.unicode == 'q': #touche q pour quitter
                 loop = False
     decrireLaPiece(dansQuellePierceEstLePersonnage)
     # Actualisation de l'affichage
